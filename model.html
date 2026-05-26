@@ -32,8 +32,9 @@
   select { flex: 1; padding: 7px 9px; border-radius: 8px; border: 1px solid #c9c7c0; font-family: inherit; font-size: 14px; background: var(--white); }
   .sub { font-size: 12px; color: var(--hint); margin: 0 0 1.5rem; }
   .section { border-top: 1px solid var(--line); padding-top: 1.25rem; }
-  .tierlabel { font-size: 13px; color: var(--muted); margin: 0 0 6px; font-weight: 600; }
-  .tierlabel .tag { font-weight: 400; }
+  .tierlabel { font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--navy); margin: 0 0 10px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+  .tierlabel::before { content: ""; display: inline-block; width: 4px; height: 16px; background: var(--navy); border-radius: 2px; }
+  .tierlabel .tag { font-weight: 500; letter-spacing: 0; text-transform: none; font-size: 12px; color: var(--muted); }
   .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 1rem; }
   .card { background: var(--surface); border-radius: 8px; padding: 1rem; }
   .card.bordered { background: var(--white); border: 1px solid var(--line); }
@@ -45,6 +46,11 @@
   .warnbox .cards2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
   .warnbox .clabel, .warnbox .cval, .warnbox .chint { color: var(--warn-tx); }
   .warnbox .cval { font-weight: 700; }
+  /* Tier 2 elevated: reads as a real category, amber kept as accent not full wash */
+  .tier2-amber::before { background: var(--gold); }
+  .cards.t2cards .card { background: var(--white); border: 1px solid var(--line); border-left: 4px solid var(--gold); }
+  .cards.t2cards .card .cval { color: var(--navy); }
+  .cards.t2cards .card .clabel { color: var(--muted); }
   .total { background: var(--cream); border-radius: 12px; padding: 1.25rem; }
   .total .tlabel { font-size: 13px; color: var(--muted); margin: 0 0 8px; }
   .total .tval { font-size: 28px; font-weight: 700; margin: 0; color: var(--navy); }
@@ -58,8 +64,8 @@
 <div class="wrap">
 
   <div class="masthead">
-    <h1>Data Center Jobs Calculator <span class="version">v1.0</span></h1>
-    <p>RenUSA &middot; Operations-inclusive employment model &middot; Working tool &middot; v1.0 (May 2026)</p>
+    <h1>Data Center Jobs Calculator <span class="version">v1.1</span></h1>
+    <p>RenUSA &middot; Operations-inclusive employment model &middot; Working tool &middot; v1.1 (May 2026)</p>
   </div>
 
   <div class="toggle-row">
@@ -148,27 +154,38 @@
     <p id="t1note" class="sub">Two distinct figures. AVERAGE uses jobs/MW from announcements (CoreWeave ~2.0, Bedington ~1.7, Stargate ~2.5, Meta ~4.0); these report sustained, not peak, employment. PEAK uses JLARC's ~1,500 workers per building at the height of construction, times the share of buildings under construction at once (phased campuses rarely build all buildings simultaneously). Gateway is 4 buildings / 2.1M sq ft.</p>
 
     <div id="tier2">
-      <p class="tierlabel">Tier 2 &middot; Recurring operations <span class="tag" id="t2tag" style="color:var(--warn-tx);">(estimate, adjustable)</span></p>
-      <div class="warnbox">
-        <div class="cards2">
-          <div>
+      <p class="tierlabel tier2-amber">Tier 2 &middot; Recurring operations <span class="tag" id="t2tag">(estimate, adjustable)</span></p>
+
+      <div id="t2-internal">
+        <div class="cards t2cards">
+          <div class="card">
             <p class="clabel">Refresh + smart-hands (FTE-equiv)</p>
             <p class="cval" id="refresh">90</p>
             <p class="chint">recurring, life of facility</p>
           </div>
-          <div>
+          <div class="card">
             <p class="clabel">Annual equipment churn</p>
             <p class="cval" id="churn">$0.9B</p>
             <p class="chint">68% of capital is equipment (JLARC); replaced ~every 5 yrs</p>
           </div>
         </div>
+        <div class="ctrl" id="rcoef-row">
+          <label>Refresh FTE / MW</label>
+          <input type="range" id="rcoef" min="0.05" max="0.4" value="0.15" step="0.01" />
+          <span class="out" id="rcoef-out">0.15</span>
+        </div>
+        <p class="sub">No published jobs-per-MW coefficient exists for refresh labor. The churn dollar figure is anchored (JLARC: 68% of capital is equipment, replaced ~every 5 years). The FTE figure is a transparent assumption; adjust it and the estimate moves. Do not present the FTE as sourced.</p>
       </div>
-      <div class="ctrl" id="rcoef-row">
-        <label>Refresh FTE / MW</label>
-        <input type="range" id="rcoef" min="0.05" max="0.4" value="0.15" step="0.01" />
-        <span class="out" id="rcoef-out">0.15</span>
+
+      <div id="t2-public" class="hidden">
+        <div class="cards t2cards">
+          <div class="card" style="grid-column: 1 / -1;">
+            <p class="clabel">Equipment refresh cycle &middot; recurring labor over facility life</p>
+            <p style="margin:6px 0 0; color:var(--ink); font-size:13px; line-height:1.55;">Beyond the permanent staff, the facility generates recurring labor through the equipment refresh cycle. Virginia&rsquo;s JLARC found that 68% of a data center&rsquo;s capital is IT and mechanical equipment, typically replaced about every five years. Each cycle requires on-site installation, cabling, testing, and decommissioning work not captured in the permanent-jobs figure.</p>
+            <p class="chint" style="margin-top:8px;">Qualitative point, not a headcount estimate.</p>
+          </div>
+        </div>
       </div>
-      <p id="t2note" class="sub">No published jobs-per-MW coefficient exists for refresh labor. The churn dollar figure is anchored (JLARC: 68% of capital is equipment, replaced ~every 5 years). The FTE figure is a transparent assumption; adjust it and the estimate moves. Do not present the FTE as sourced.</p>
     </div>
 
     <div id="tier3">
@@ -265,25 +282,26 @@
 
   function applyAudience(){
     var pub = state.aud==='pub';
-    document.getElementById('rcoef-row').classList.toggle('hidden', pub);
+    document.getElementById('t2-internal').classList.toggle('hidden', pub);
+    document.getElementById('t2-public').classList.toggle('hidden', !pub);
     var sel = document.getElementById('model');
     var pwcOpt = sel.querySelector('option[value="pwc"]');
     if (pwcOpt) pwcOpt.disabled = pub;
     if (pub && state.model==='pwc'){ state.model='brook'; sel.value='brook'; }
     document.getElementById('t3tag').textContent = pub ? '(independent + government models)' : '(five models, select to compare)';
-    document.getElementById('t2tag').textContent = pub ? '(conservative estimate)' : '(estimate, adjustable)';
+    document.getElementById('t2tag').textContent = pub ? '(qualitative, no headcount)' : '(estimate, adjustable)';
     document.getElementById('ftype-note').textContent = pub
       ? 'Operator-run hyperscale facilities generate the strongest local ecosystem effect.'
       : 'Drives the local ecosystem effect. Brookings found colocation captures little of it locally.';
     document.getElementById('t3note').textContent = pub
       ? 'Spillover jobs beyond the fence: fiber, network operations, managed services, IT contractors. Range shown across independent (Brookings) and Virginia government (JLARC) models.'
       : 'All IMPLAN/RIMS models (JLARC, Mangum, ORVI, PwC) add and never subtract; they ignore opportunity cost. Brookings is the only model that measures a causal counterfactual, which is why it runs lowest and is hardest to attack in a hearing.';
-    document.getElementById('t2note').textContent = pub
-      ? 'A conservative estimate of recurring labor from the equipment refresh cycle. Anchored to JLARC: 68% of capital is equipment, replaced about every five years.'
-      : 'No published jobs-per-MW coefficient exists for refresh labor. The churn dollar figure is anchored (JLARC: 68% of capital is equipment, replaced ~every 5 years). The FTE figure is a transparent assumption; adjust it and the estimate moves. Do not present the FTE as sourced.';
     document.getElementById('aud-note').textContent = pub
-      ? 'Conservative subset. Industry (PwC) model and internal caveats hidden. Numbers remain a strict subset of the internal view, never inflated.'
+      ? 'Conservative subset. Industry (PwC) model and the Tier 2 headcount estimate are hidden; refresh labor shown as a qualitative point only. Numbers remain a strict subset of the internal view, never inflated.'
       : 'Full analysis with every caveat and all five models shown.';
+    document.getElementById('total-note').textContent = pub
+      ? 'Permanent staff plus the selected spillover model. Construction is temporary and excluded. Recurring refresh-cycle labor adds to this over the facility life but is not counted in the headline figure.'
+      : 'Range across all five models is shown so the figure is honest about spread. Construction is temporary and excluded. Tier 2 recurring labor sits on top, as an estimate.';
     document.getElementById('aud-int').classList.toggle('on', !pub);
     document.getElementById('aud-pub').classList.toggle('on', pub);
     compute();
