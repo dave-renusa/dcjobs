@@ -20,19 +20,24 @@
   .masthead h1 { color: var(--navy); font-size: 26px; margin: 0 0 2px; font-weight: 700; }
   .version { font-size: 12px; font-weight: 600; color: var(--gold); background: var(--cream); border: 1px solid var(--gold); border-radius: 6px; padding: 2px 8px; vertical-align: middle; margin-left: 8px; }
   .masthead p { color: var(--muted); font-size: 13px; margin: 0; }
+  .toolbar { display: flex; gap: 8px; margin: 0.75rem 0 0; flex-wrap: wrap; }
+  .toolbar button { padding: 6px 12px; border-radius: 8px; font-size: 13px; cursor: pointer; border: 1px solid #c9c7c0; background: var(--white); color: var(--navy); font-family: inherit; font-weight: 600; }
+  .toolbar button.primary { background: var(--navy); color: var(--cream); border-color: var(--navy); }
+  .toolbar .msg { font-size: 12px; color: var(--hint); align-self: center; }
   .toggle-row { display: flex; gap: 8px; margin-bottom: 0.4rem; }
   .toggle-row button { flex: 1; padding: 9px; border-radius: 8px; font-size: 14px; cursor: pointer;
     border: 1px solid #c9c7c0; background: transparent; color: var(--ink); font-family: inherit; transition: all 0.12s; }
   .toggle-row button.on { border: 2px solid var(--navy); background: var(--info-bg); color: var(--navy); font-weight: 600; }
   .note { font-size: 12px; color: var(--hint); margin: 0 0 1.25rem; }
   .ctrl { display: flex; align-items: center; gap: 12px; margin-bottom: 0.5rem; }
-  .ctrl label { font-size: 14px; color: var(--muted); min-width: 110px; }
-  .ctrl input[type=range] { flex: 1; accent-color: var(--navy); }
+  .ctrl label { font-size: 14px; color: var(--muted); min-width: 150px; }
+  .ctrl input[type=range] { flex: 1; accent-color: var(--navy); min-width: 0; }
+  .ctrl input[type=number] { flex: 1; padding: 7px 9px; border-radius: 8px; border: 1px solid #c9c7c0; font-family: inherit; font-size: 14px; min-width: 0; }
   .ctrl .out { font-size: 16px; font-weight: 600; min-width: 92px; text-align: right; color: var(--navy); }
-  select { flex: 1; padding: 7px 9px; border-radius: 8px; border: 1px solid #c9c7c0; font-family: inherit; font-size: 14px; background: var(--white); }
+  select { flex: 1; padding: 7px 9px; border-radius: 8px; border: 1px solid #c9c7c0; font-family: inherit; font-size: 14px; background: var(--white); min-width: 0; }
   .sub { font-size: 12px; color: var(--hint); margin: 0 0 1.5rem; }
-  .section { border-top: 1px solid var(--line); padding-top: 1.25rem; }
-  .tierlabel { font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--navy); margin: 0 0 10px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+  .section { border-top: 1px solid var(--line); padding-top: 1.25rem; margin-top: 1.25rem; }
+  .tierlabel { font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--navy); margin: 0 0 10px; font-weight: 700; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
   .tierlabel::before { content: ""; display: inline-block; width: 4px; height: 16px; background: var(--navy); border-radius: 2px; }
   .tierlabel .tag { font-weight: 500; letter-spacing: 0; text-transform: none; font-size: 12px; color: var(--muted); }
   .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 1rem; }
@@ -42,31 +47,63 @@
   .card .cval { font-size: 24px; font-weight: 700; margin: 0; color: var(--navy); }
   .card .chint { font-size: 11px; color: var(--hint); margin: 4px 0 0; }
   .xcheck { font-size: 12px; color: var(--muted); background: var(--cream); border-radius: 8px; padding: 10px 12px; margin: 0 0 1.25rem; }
-  .warnbox { background: var(--warn-bg); border-radius: 8px; padding: 1rem; margin-bottom: 0.75rem; }
-  .warnbox .cards2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
-  .warnbox .clabel, .warnbox .cval, .warnbox .chint { color: var(--warn-tx); }
-  .warnbox .cval { font-weight: 700; }
-  /* Tier 2 elevated: reads as a real category, amber kept as accent not full wash */
+  .flag { font-size: 12px; color: var(--warn-tx); background: var(--warn-bg); border-radius: 8px; padding: 10px 12px; margin: 0 0 1rem; }
   .tier2-amber::before { background: var(--gold); }
   .cards.t2cards .card { background: var(--white); border: 1px solid var(--line); border-left: 4px solid var(--gold); }
-  .cards.t2cards .card .cval { color: var(--navy); }
-  .cards.t2cards .card .clabel { color: var(--muted); }
-  .total { background: var(--cream); border-radius: 12px; padding: 1.25rem; }
+  .total { background: var(--cream); border-radius: 12px; padding: 1.25rem; margin-top: 1.25rem; }
   .total .tlabel { font-size: 13px; color: var(--muted); margin: 0 0 8px; }
   .total .tval { font-size: 28px; font-weight: 700; margin: 0; color: var(--navy); }
   .total .thint { font-size: 12px; color: var(--hint); margin: 8px 0 0; }
+  /* Range strip across models */
+  .range { margin: 0.5rem 0 1.5rem; }
+  .range .track { position: relative; height: 34px; margin: 0 8px; }
+  .range .bar { position: absolute; top: 14px; left: 0; width: 100%; height: 6px; background: var(--line); border-radius: 3px; }
+  .range .dot { position: absolute; top: 9px; width: 16px; height: 16px; margin-left: -8px; border-radius: 50%; background: var(--white); border: 2px solid var(--gold); cursor: pointer; padding: 0; }
+  .range .dot.sel { background: var(--navy); border-color: var(--navy); }
+  .range .rows { font-size: 12px; color: var(--muted); display: grid; grid-template-columns: 1fr auto; gap: 2px 12px; margin-top: 6px; }
+  .range .rows .v { text-align: right; font-weight: 600; color: var(--navy); font-variant-numeric: tabular-nums; }
+  .range .rows .s { color: var(--navy); font-weight: 700; }
+  .chk { display: flex; align-items: center; gap: 8px; font-size: 14px; color: var(--muted); margin-bottom: 0.5rem; }
+  .chk input { accent-color: var(--navy); }
+  .presets { display: flex; gap: 6px; flex-wrap: wrap; margin: 0 0 0.75rem; }
+  .presets button { font: inherit; font-size: 12px; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--line); background: var(--white); color: var(--navy); cursor: pointer; }
+  table.anchors { width: 100%; border-collapse: collapse; font-size: 12.5px; margin-bottom: 0.5rem; }
+  table.anchors th { text-align: left; font-size: 11px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); border-bottom: 2px solid var(--gold); padding: 6px; }
+  table.anchors td { border-bottom: 1px solid var(--line); padding: 6px; vertical-align: top; }
+  table.anchors td.n { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .tablewrap { overflow-x: auto; }
   .footer { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--line); font-size: 11px; color: var(--hint); }
   .footer p { margin: 0 0 8px; }
   .hidden { display: none !important; }
+  .print-only { display: none; }
+  @media (max-width: 560px) {
+    .ctrl { flex-wrap: wrap; gap: 4px 12px; }
+    .ctrl label { min-width: 100%; }
+  }
+  @media print {
+    .wrap { max-width: none; padding: 0; }
+    .toolbar, .toggle-row, .ctrl, .presets, .chk { display: none !important; }
+    .card, .total, .xcheck, .flag { -webkit-print-color-adjust: exact; print-color-adjust: exact; break-inside: avoid; }
+    .print-only { display: block !important; font-size: 12px; color: var(--muted); }
+    @page { size: letter portrait; margin: 0.5in; }
+  }
 </style>
 </head>
 <body>
 <div class="wrap">
 
   <div class="masthead">
-    <h1>Data Center Jobs Calculator <span class="version">v1.1</span></h1>
-    <p>RenUSA &middot; Operations-inclusive employment model &middot; Working tool &middot; v1.1 (May 2026)</p>
+    <h1>Data Center Jobs Calculator <span class="version">v2.0</span></h1>
+    <p>RenUSA &middot; Operations-inclusive employment and fiscal model &middot; Working tool &middot; v2.0 (September 2026)</p>
+    <div class="toolbar">
+      <button class="primary" id="btn-print">Print / save PDF</button>
+      <button id="btn-link">Copy link to this scenario</button>
+      <button id="btn-reset">Reset</button>
+      <span class="msg" id="link-msg"></span>
+    </div>
   </div>
+
+  <p class="print-only" id="print-summary"></p>
 
   <div class="toggle-row">
     <button id="aud-int" class="on">Internal view</button>
@@ -81,31 +118,40 @@
 
   <div id="mw-panel" style="margin-top:1rem;">
     <div class="ctrl">
-      <label>Capacity (MW)</label>
-      <input type="range" id="mw" min="10" max="1000" value="600" step="10" />
+      <label for="mw">Capacity (MW)</label>
+      <input type="range" id="mw" min="10" max="5000" value="600" step="10" />
       <span class="out" id="mw-out">600</span>
     </div>
-    <p class="sub">IT load in megawatts. Gateway and Bedington are each ~600 MW.</p>
+    <p class="sub">IT load in megawatts. Gateway and Bedington are each ~600 MW; Meta Hyperion is ~5,000 MW.</p>
   </div>
 
   <div id="sf-panel" class="hidden" style="margin-top:1rem;">
     <div class="ctrl">
-      <label>Building (sq ft)</label>
-      <input type="range" id="sf" min="50000" max="5000000" value="2100000" step="50000" />
+      <label for="sf">Building (sq ft)</label>
+      <input type="range" id="sf" min="50000" max="10000000" value="2100000" step="50000" />
       <span class="out" id="sf-out">2,100,000</span>
     </div>
     <p class="sub">Converted to MW at a loose industry density. Square footage is a weak predictor of power, so treat as rough. Gateway is ~2.1M sq ft.</p>
   </div>
 
   <div class="ctrl">
-    <label>Facility type</label>
+    <label for="ftype">Facility type</label>
     <select id="ftype">
       <option value="colo">Colocation / speculative (Penzance profile)</option>
-      <option value="hyper">Hyperscale (operator-run)</option>
+      <option value="hyper">Hyperscale (operator-run cloud)</option>
+      <option value="ai">AI training campus (gigawatt-class)</option>
     </select>
   </div>
-  <p id="ftype-note" class="sub">Drives the local ecosystem effect. Brookings found colocation captures little of it locally.</p>
+  <p id="ftype-note" class="sub">Drives permanent staffing and the local ecosystem effect.</p>
 
+  <div class="ctrl">
+    <label for="capex">Build cost ($M / MW)</label>
+    <input type="range" id="capex" min="5" max="50" value="11.3" step="0.1" />
+    <span class="out" id="capex-out">$11.3M</span>
+  </div>
+  <p class="sub">Default $11.3M/MW is the 2026 industry midpoint for the building and power/cooling plant. AI campuses run far higher once chips are counted: Meta's $50B commitment for ~5 GW at Hyperion is ~$10M/MW, but press figures of $200-250B put it at $40-50M/MW.</p>
+
+  <!-- ================= TIER 1 ================= -->
   <div class="section">
 
     <p class="tierlabel">Tier 1 &middot; Well-anchored</p>
@@ -113,17 +159,12 @@
       <div class="card">
         <p class="clabel">Permanent on-site jobs</p>
         <p class="cval" id="perm">180</p>
-        <p class="chint">direct employees, full build-out</p>
+        <p class="chint" id="perm-hint">direct employees, full build-out</p>
       </div>
       <div class="card">
-        <p class="clabel">Construction (avg over build)</p>
-        <p class="cval" id="con">1,200</p>
-        <p class="chint">sustained employment, per-MW basis</p>
-      </div>
-      <div class="card">
-        <p class="clabel">Construction (peak on-site)</p>
-        <p class="cval" id="conpeak">4,200</p>
-        <p class="chint">busiest moment; buildings x JLARC ~1,500/bldg</p>
+        <p class="clabel">Capital per permanent job</p>
+        <p class="cval" id="cpj">$38M</p>
+        <p class="chint">total build cost / permanent jobs</p>
       </div>
     </div>
 
@@ -131,27 +172,63 @@
       JLARC cross-check: Virginia's legislative commission cites ~50 full-time workers per 250,000 sq ft, about half of them contract workers excluded from official job counts. At this project size that implies roughly <b id="xc-total">420</b> on-site workers, of which about <b id="xc-contract">210</b> are contractors not in the permanent figure above.
     </div>
 
-    <div class="ctrl" id="ccoef-row">
-      <label>Avg constr. jobs / MW</label>
-      <input type="range" id="ccoef" min="1.5" max="4.0" value="2.0" step="0.1" />
+    <p class="sub">Benchmarks: Food &amp; Water Watch (Jan 2026) puts Virginia data centers at ~$54M of investment per job, versus ~$137,000 per job in the rest of the economy. Meta Hyperion is ~$50M per permanent job on its own $50B figure (1,000 jobs).</p>
+
+    <p class="tierlabel">Construction <span class="tag">(temporary, excluded from the ongoing total)</span></p>
+    <div class="cards">
+      <div class="card">
+        <p class="clabel">Average on-site (sustained)</p>
+        <p class="cval" id="con">1,200</p>
+        <p class="chint">jobs/MW basis, over the build</p>
+      </div>
+      <div class="card">
+        <p class="clabel">Peak on-site</p>
+        <p class="cval" id="conpeak">4,200</p>
+        <p class="chint">buildings &times; workers/bldg &times; concurrency</p>
+      </div>
+      <div class="card">
+        <p class="clabel">Construction job-years</p>
+        <p class="cval" id="jobyears">3,600</p>
+        <p class="chint" id="jobyears-hint">average &times; build duration</p>
+      </div>
+      <div class="card">
+        <p class="clabel">Local residents (avg)</p>
+        <p class="cval" id="conlocal">600</p>
+        <p class="chint" id="conlocal-hint">average &times; local share</p>
+      </div>
+    </div>
+
+    <div class="ctrl">
+      <label for="ccoef">Avg constr. jobs / MW</label>
+      <input type="range" id="ccoef" min="0.5" max="4.0" value="2.0" step="0.1" />
       <span class="out" id="ccoef-out">2.0</span>
     </div>
-    <div class="ctrl" id="bldg-row">
-      <label>Buildings on campus</label>
-      <input type="range" id="bldgs" min="1" max="12" value="4" step="1" />
+    <div class="ctrl">
+      <label for="years">Build duration (years)</label>
+      <input type="range" id="years" min="1" max="12" value="3" step="0.5" />
+      <span class="out" id="years-out">3</span>
+    </div>
+    <div class="ctrl">
+      <label for="bldgs">Buildings on campus</label>
+      <input type="range" id="bldgs" min="1" max="20" value="4" step="1" />
       <span class="out" id="bldgs-out">4</span>
     </div>
-    <div class="ctrl" id="peakb-row">
-      <label>Peak workers / building</label>
-      <input type="range" id="peakb" min="800" max="2000" value="1500" step="50" />
+    <div class="ctrl">
+      <label for="peakb">Peak workers / building</label>
+      <input type="range" id="peakb" min="400" max="2000" value="1500" step="50" />
       <span class="out" id="peakb-out">1,500</span>
     </div>
-    <div class="ctrl" id="concur-row">
-      <label>Concurrent buildings</label>
-      <input type="range" id="concur" min="0.3" max="1.0" value="0.7" step="0.05" />
-      <span class="out" id="concur-out">0.7</span>
+    <div class="ctrl">
+      <label for="concur">Concurrent buildings</label>
+      <input type="range" id="concur" min="0.2" max="1.0" value="0.7" step="0.05" />
+      <span class="out" id="concur-out">0.70</span>
     </div>
-    <p id="t1note" class="sub">Two distinct figures. AVERAGE uses jobs/MW from announcements (CoreWeave ~2.0, Bedington ~1.7, Stargate ~2.5, Meta ~4.0); these report sustained, not peak, employment. PEAK uses JLARC's ~1,500 workers per building at the height of construction, times the share of buildings under construction at once (phased campuses rarely build all buildings simultaneously). Gateway is 4 buildings / 2.1M sq ft.</p>
+    <div class="ctrl">
+      <label for="local">Local resident share</label>
+      <input type="range" id="local" min="0.1" max="0.9" value="0.5" step="0.05" />
+      <span class="out" id="local-out">50%</span>
+    </div>
+    <p class="sub">AVERAGE uses jobs/MW from announcements; PEAK uses JLARC's ~1,500 workers per building at the height of construction times the share of buildings built at once. JOB-YEARS is the honest way to state a multi-year or phased build: 7,500 peak workers over a ten-year Hyperion-style buildout is not 7,500 permanent jobs. Industry sources estimate 75-98% of on-site employment ends at commissioning. The LOCAL SHARE has no reliable published figure; specialized trades travel between projects. The 50% default is a placeholder assumption, so set it from the contractor's own hiring commitments where they exist.</p>
 
     <div id="tier2">
       <p class="tierlabel tier2-amber">Tier 2 &middot; Recurring operations <span class="tag" id="t2tag">(estimate, adjustable)</span></p>
@@ -169,12 +246,12 @@
             <p class="chint">68% of capital is equipment (JLARC); replaced ~every 5 yrs</p>
           </div>
         </div>
-        <div class="ctrl" id="rcoef-row">
-          <label>Refresh FTE / MW</label>
+        <div class="ctrl">
+          <label for="rcoef">Refresh FTE / MW</label>
           <input type="range" id="rcoef" min="0.05" max="0.4" value="0.15" step="0.01" />
           <span class="out" id="rcoef-out">0.15</span>
         </div>
-        <p class="sub">No published jobs-per-MW coefficient exists for refresh labor. The churn dollar figure is anchored (JLARC: 68% of capital is equipment, replaced ~every 5 years). The FTE figure is a transparent assumption; adjust it and the estimate moves. Do not present the FTE as sourced.</p>
+        <p class="sub">No published jobs-per-MW coefficient exists for refresh labor. The churn dollar figure is anchored (JLARC: 68% of capital is equipment, replaced ~every 5 years). The FTE figure is a transparent assumption; adjust it and the estimate moves. Do not present the FTE as sourced. Context: Virginia's operating fleet ran ~1.1 jobs/MW in 2023-24 once contractors are counted, and Uptime Institute reports 1-2 staff/MW on large hyperscale campuses, both well above announced permanent-job figures. Uptime's July 2026 survey found over half of operators struggling to fill positions.</p>
       </div>
 
       <div id="t2-public" class="hidden">
@@ -187,150 +264,424 @@
         </div>
       </div>
     </div>
+  </div>
 
-    <div id="tier3">
-      <p class="tierlabel">Tier 3 &middot; Indirect / induced <span class="tag" id="t3tag" style="color:var(--hint);">(five models, select to compare)</span></p>
-      <div class="ctrl">
-        <label>Model</label>
-        <select id="model">
-          <option value="brook">Brookings 2026 (independent, causal, county)</option>
-          <option value="jlarc">JLARC 2024 (VA government, IMPLAN, statewide)</option>
-          <option value="mangum">Mangum 2023 (independent, state, ex-construction)</option>
-          <option value="orvi">Ohio River Valley Inst. (skeptic, state floor)</option>
-          <option value="pwc">PwC / DCC (industry, national)</option>
-        </select>
-      </div>
-      <div class="cards">
-        <div class="card bordered">
-          <p class="clabel" id="m-label">Spillover jobs (this model)</p>
-          <p class="cval" id="spill">110</p>
-          <p class="chint" id="m-desc">independent, causal, county-level</p>
-        </div>
-        <div class="card bordered">
-          <p class="clabel">Multiplier applied</p>
-          <p class="cval" id="mult">0.6x</p>
-          <p class="chint">spillover per direct permanent job</p>
-        </div>
-      </div>
-      <p id="t3note" class="sub">All IMPLAN/RIMS models (JLARC, Mangum, ORVI, PwC) add and never subtract; they ignore opportunity cost. Brookings is the only model that measures a causal counterfactual, which is why it runs lowest and is hardest to attack in a hearing.</p>
+  <!-- ================= TIER 3 ================= -->
+  <div class="section" id="tier3">
+    <p class="tierlabel">Tier 3 &middot; Indirect / induced <span class="tag" id="t3tag" style="color:var(--hint);">(five models, select to compare)</span></p>
+    <div class="ctrl">
+      <label for="model">Model</label>
+      <select id="model">
+        <option value="brook">Brookings 2026 (independent, causal, county)</option>
+        <option value="jlarc">JLARC 2024 (VA government, IMPLAN, statewide)</option>
+        <option value="mangum">Mangum 2023 (independent, state, ex-construction)</option>
+        <option value="orvi">Ohio River Valley Inst. 2026 (skeptic, state floor)</option>
+        <option value="pwc">PwC / DCC 2026 (industry, national)</option>
+      </select>
     </div>
+    <div class="ctrl" id="pwc-state-row">
+      <label for="pwcstate">PwC state multiplier</label>
+      <input type="number" id="pwcstate" min="0" max="10" step="0.1" placeholder="optional; blank = 4.5x national" />
+    </div>
+    <p class="sub" id="pwc-state-note">PwC's 2026 study reports results for all 50 states. A state multiplier is more honest than the national one; enter it from the state table when using PwC for a specific project.</p>
+
+    <div class="flag" id="brook-flag">Brookings revised this study (expanded sample, ~August 2026). The revision confirms the direction: IT-sector job gains are driven by hyperscalers, not colocation, and are largest where data centers cluster. The per-job multipliers used here (0.6x colocation, 1.6x hyperscale) come from the May 2026 version and have not yet been re-verified against the revised paper.</div>
+
+    <div class="cards">
+      <div class="card bordered">
+        <p class="clabel" id="m-label">Spillover jobs (this model)</p>
+        <p class="cval" id="spill">110</p>
+        <p class="chint" id="m-desc">independent, causal, county-level</p>
+      </div>
+      <div class="card bordered">
+        <p class="clabel">Multiplier applied</p>
+        <p class="cval" id="mult">0.6x</p>
+        <p class="chint" id="mult-hint">spillover per direct permanent job</p>
+      </div>
+    </div>
+
+    <p class="tierlabel">Range across models <span class="tag">(permanent + spillover; click a dot to select)</span></p>
+    <div class="range">
+      <div class="track" id="range-track"><div class="bar"></div></div>
+      <div class="rows" id="range-rows"></div>
+    </div>
+
+    <p id="t3note" class="sub">All IMPLAN/RIMS models (JLARC, Mangum, ORVI, PwC) add and never subtract; they ignore opportunity cost.</p>
 
     <div class="total">
-      <p class="tlabel" id="total-label">Defensible local range (permanent + selected model)</p>
+      <p class="tlabel">Defensible local range (permanent + selected model)</p>
       <p class="tval" id="total">~290 ongoing local jobs</p>
-      <p class="thint" id="total-note">Range across all five models is shown so the figure is honest about spread. Construction is temporary and excluded. Tier 2 recurring labor sits on top, as an estimate.</p>
+      <p class="thint" id="total-note">Construction is temporary and excluded.</p>
     </div>
+  </div>
 
+  <!-- ================= COUNTY EFFECT ================= -->
+  <div class="section">
+    <p class="tierlabel">County effect &middot; Brookings <span class="tag">(top-down check, not additive to the tiers)</span></p>
+    <div class="ctrl">
+      <label for="county">County private employment</label>
+      <input type="number" id="county" min="1000" max="5000000" step="1000" value="100000" />
+    </div>
+    <div class="cards">
+      <div class="card">
+        <p class="clabel">Private employment gain</p>
+        <p class="cval" id="cty-jobs">2,000-5,000</p>
+        <p class="chint">5-6 years after a county's first large data center</p>
+      </div>
+      <div class="card">
+        <p class="clabel">Wage gain</p>
+        <p class="cval">3-4%</p>
+        <p class="chint">incumbent workers and new hires</p>
+      </div>
+    </div>
+    <p class="sub">Brookings (Bahar and Wright) found a county's first large data center lifts total private employment 4-5% over five to six years, and translates that to roughly 2,000-4,000 jobs for a typical county of ~100,000 private jobs. The range shown spans both statements (2-5%). Construction employment rose 11% and information-sector employment 22%, with no significant home-price effect. This captures everything the county gained, including construction-phase activity, so compare it to the tiers rather than adding it.</p>
+    <p class="flag" id="cty-colo-flag">Colocation: Brookings finds the information-sector gains are driven by hyperscalers. The county range is shown for reference, but a colocation project should expect the low end or below. Brookings also found incentives equal ~62% of total investment for colocation facilities versus ~2% for hyperscale.</p>
+  </div>
+
+  <!-- ================= FISCAL ================= -->
+  <div class="section">
+    <p class="tierlabel">Fiscal &middot; Annual revenue <span class="tag">(all rates are inputs; set them for the jurisdiction)</span></p>
+    <div class="presets">
+      <button id="pre-va">Virginia electricity tax ($0.011/kWh)</button>
+      <button id="pre-none">No electricity tax</button>
+    </div>
+    <div class="ctrl">
+      <label for="lf">Average utilization</label>
+      <input type="range" id="lf" min="0.3" max="1.0" value="0.8" step="0.05" />
+      <span class="out" id="lf-out">80%</span>
+    </div>
+    <div class="ctrl">
+      <label for="etax">Electricity tax ($/kWh)</label>
+      <input type="range" id="etax" min="0" max="0.02" value="0" step="0.001" />
+      <span class="out" id="etax-out">$0.000</span>
+    </div>
+    <div class="ctrl">
+      <label for="ptax">Effective property tax (% of cost/yr)</label>
+      <input type="range" id="ptax" min="0" max="2.0" value="0.5" step="0.05" />
+      <span class="out" id="ptax-out">0.50%</span>
+    </div>
+    <div class="ctrl">
+      <label for="abate">Property tax abatement</label>
+      <input type="range" id="abate" min="0" max="1" value="0" step="0.05" />
+      <span class="out" id="abate-out">0%</span>
+    </div>
+    <div class="ctrl" id="stax-row">
+      <label for="stax">State sales tax rate</label>
+      <input type="range" id="stax" min="0" max="0.1" value="0.06" step="0.0025" />
+      <span class="out" id="stax-out">6.00%</span>
+    </div>
+    <label class="chk" id="exempt-row"><input type="checkbox" id="exempt" checked /> Equipment is sales-tax exempt</label>
+
+    <div class="cards">
+      <div class="card">
+        <p class="clabel">Annual electricity use</p>
+        <p class="cval" id="mwh">4.2M MWh</p>
+        <p class="chint">MW &times; 8,760 hrs &times; utilization</p>
+      </div>
+      <div class="card">
+        <p class="clabel">Electricity tax</p>
+        <p class="cval" id="etax-rev">$0</p>
+        <p class="chint">per year, to the state</p>
+      </div>
+      <div class="card">
+        <p class="clabel">Local property tax</p>
+        <p class="cval" id="ptax-rev">$34M</p>
+        <p class="chint">per year, after abatement</p>
+      </div>
+      <div class="card" id="stax-card">
+        <p class="clabel">Sales tax forgone</p>
+        <p class="cval" id="stax-rev">$55M</p>
+        <p class="chint">per year on equipment churn</p>
+      </div>
+    </div>
+    <p class="sub">Property tax is simplified to one effective annual rate on total build cost. Real bills depend on how the jurisdiction taxes land, buildings and depreciating equipment, so calibrate the rate against the county's actual levy. Virginia's electricity tax (effective July 1, 2026 through June 30, 2028) is capped at $600M a year statewide across all operators. JLARC estimated each dollar of Virginia's sales-tax exemption returned ~$0.48 in other state revenue.</p>
+  </div>
+
+  <!-- ================= ANCHORS ================= -->
+  <div class="section">
+    <p class="tierlabel">Anchor projects <span class="tag">(check the defaults against real announcements)</span></p>
+    <div class="tablewrap">
+      <table class="anchors">
+        <thead><tr><th>Project</th><th>MW</th><th>Construction</th><th>/MW</th><th>Permanent</th><th>/MW</th></tr></thead>
+        <tbody id="anchor-rows"></tbody>
+      </table>
+    </div>
+    <p class="sub">Company-announced figures, not audited. Construction figures mix sustained and peak headcounts, which is why the calculator separates them. Gigawatt AI campuses announce ~0.2 permanent jobs/MW.</p>
   </div>
 
   <div class="footer">
-    <p><b>Models:</b> Brookings 2026 (BLS data, synthetic control); JLARC 2024 (Weldon Cooper Center / IMPLAN for the Virginia General Assembly); Mangum Economics 2023 (IMPLAN, ~3.5 spillover jobs per VA data center job, ex-construction); Ohio River Valley Institute (cites IMPLAN's own 2-3 state multiplier guidance); PwC for the Data Center Coalition (IMPLAN, ~6-7.5x national, industry-funded).</p>
-    <p><b>Tier 1 anchors:</b> permanent ~0.30/MW colo, ~0.45/MW hyperscale; JLARC cross-check at ~50 workers per 250k sq ft (half contract). Construction from 2025-2026 announcements. <b>Tier 2 anchor:</b> JLARC capital split (68% equipment), 5-year replacement. <b>Caveat:</b> IMPLAN models exclude externalities (carbon, health) per JLARC's own note. Square-foot conversion ~3,500 sq ft/MW, approximate.</p>
-    <p>Internal RenUSA working tool. Public view hides the contested PwC model and internal caveats; it never inflates numbers, which remain a strict subset of the internal view.</p>
+    <p><b>Models:</b> Brookings 2026 (Bahar and Wright; BLS data, synthetic control, 93 counties 2008-2024; revised ~Aug 2026); JLARC 2024 (Weldon Cooper Center / IMPLAN for the Virginia General Assembly); Mangum Economics 2023 (IMPLAN, ~3.5 spillover jobs per VA data center job, ex-construction); Ohio River Valley Institute 2026 (cites IMPLAN's own 2-3 state multiplier guidance); PwC for the Data Center Coalition 2026 (IMPLAN, 2024 data, 1,005,080 direct jobs, &gt;4.5 other jobs per direct job nationally; prior 2023 study ~6x; industry-funded).</p>
+    <p><b>Tier 1 anchors:</b> permanent ~0.30/MW colocation, ~0.45/MW hyperscale, ~0.20/MW AI campus (Hyperion 1,000 on ~5 GW); JLARC cross-check at ~50 workers per 250k sq ft (half contract). Construction from 2025-2026 announcements. <b>Tier 2 anchor:</b> JLARC capital split (68% equipment), 5-year replacement. <b>Other sources:</b> Food &amp; Water Watch, "Artificial Jobs" (Jan 2026); Uptime Institute Global Data Center Survey (Jul 2026); Virginia electricity tax (2026 budget). <b>Caveat:</b> IMPLAN models exclude externalities (carbon, health) per JLARC's own note. Square-foot conversion ~3,500 sq ft/MW, approximate.</p>
+    <p>Internal RenUSA working tool. Public view hides the contested PwC model, the Tier 2 headcount, forgone sales tax and internal caveats; it never inflates numbers, which remain a strict subset of the internal view.</p>
   </div>
 
 </div>
 
 <script>
 (function(){
-  var SF_PER_MW = 3500, EQUIP_SHARE = 0.68, COST_PER_MW = 11.3, REFRESH_YEARS = 5;
+  var SF_PER_MW = 3500, EQUIP_SHARE = 0.68, REFRESH_YEARS = 5;
+
+  var PERM_PER_MW = { colo: 0.30, hyper: 0.45, ai: 0.20 };
 
   var models = {
-    brook:  { colo: 0.6, hyper: 1.6, label: "Spillover jobs (Brookings)", desc: "independent, causal, county-level" },
-    jlarc:  { colo: 2.4, hyper: 2.4, label: "Spillover jobs (JLARC)",     desc: "VA government, IMPLAN, statewide" },
-    mangum: { colo: 3.5, hyper: 3.5, label: "Spillover jobs (Mangum)",    desc: "independent, state, ex-construction" },
-    orvi:   { colo: 1.5, hyper: 2.0, label: "Spillover jobs (ORVI floor)",desc: "skeptic, IMPLAN state-multiplier floor" },
-    pwc:    { colo: 6.0, hyper: 6.0, label: "Spillover jobs (PwC)",       desc: "industry-funded, national, top-down" }
+    brook:  { colo: 0.6, hyper: 1.6, ai: 1.6, name: "Brookings 2026", label: "Spillover jobs (Brookings)", desc: "independent, causal, county-level" },
+    jlarc:  { colo: 2.4, hyper: 2.4, ai: 2.4, name: "JLARC 2024",     label: "Spillover jobs (JLARC)",     desc: "VA government, IMPLAN, statewide" },
+    mangum: { colo: 3.5, hyper: 3.5, ai: 3.5, name: "Mangum 2023",    label: "Spillover jobs (Mangum)",    desc: "independent, state, ex-construction" },
+    orvi:   { colo: 1.5, hyper: 2.0, ai: 2.0, name: "ORVI 2026",      label: "Spillover jobs (ORVI floor)",desc: "skeptic, IMPLAN state-multiplier floor" },
+    pwc:    { colo: 4.5, hyper: 4.5, ai: 4.5, name: "PwC / DCC 2026", label: "Spillover jobs (PwC)",       desc: "industry-funded, national, top-down" }
   };
+  var ORDER = ['brook','orvi','jlarc','mangum','pwc'];
 
-  var state = { mode:'mw', mw:600, sf:2100000, ftype:'colo', rcoef:0.15, ccoef:2.0, bldgs:4, peakb:1500, concur:0.7, model:'brook', aud:'int' };
+  // [project, MW, construction jobs, construction as announced, permanent jobs]
+  var ANCHORS = [
+    ["Bedington, WV (Penzance)", 600, 1000, "1,000+", null],
+    ["Gateway (4 bldgs, 2.1M sq ft)", 600, null, "", null],
+    ["CoreWeave, Lancaster PA", 300, 600, "600", null],
+    ["Stargate, Michigan", 1000, 2500, "2,500+", null],
+    ["Meta, El Paso TX", 1000, 4000, "4,000+ peak", null],
+    ["Meta, Sturgeon County AB", 1000, 3000, "~3,000 peak", null],
+    ["AI campus, Pecos TX", 2000, 6000, "6,000+ peak", null],
+    ["Meta Hyperion, Richland Parish LA", 5000, 7500, "~7,500 peak", 1000]
+  ];
 
+  var DEFAULTS = { mode:'mw', mw:600, sf:2100000, ftype:'colo', capex:11.3, rcoef:0.15, ccoef:2.0, years:3, bldgs:4, peakb:1500, concur:0.7, local:0.5,
+                   model:'brook', pwcstate:0, county:100000, lf:0.8, etax:0, ptax:0.5, abate:0, stax:0.06, exempt:1, aud:'int' };
+  var state = {};
+  for (var k0 in DEFAULTS) state[k0] = DEFAULTS[k0];
+
+  function $(id){ return document.getElementById(id); }
   function fmt(n){ return Math.round(n).toLocaleString(); }
+  function money(n){ // n in dollars
+    var a = Math.abs(n);
+    if (a >= 1e9) return '$' + (n/1e9).toFixed(1) + 'B';
+    if (a >= 1e6) return '$' + (n/1e6).toFixed(a >= 1e8 ? 0 : 1) + 'M';
+    if (a >= 1e3) return '$' + Math.round(n/1e3) + 'K';
+    return '$' + Math.round(n);
+  }
+
+  function multFor(key){
+    if (key === 'pwc' && state.pwcstate > 0) return state.pwcstate;
+    return models[key][state.ftype];
+  }
 
   function compute(){
+    var pub = state.aud === 'pub';
     var mw = state.mode==='mw' ? state.mw : state.sf / SF_PER_MW;
     var sf = state.mode==='sf' ? state.sf : state.mw * SF_PER_MW;
-    var permPerMw = state.ftype==='colo' ? 0.30 : 0.45;
-    var perm = mw * permPerMw;
+
+    // Tier 1
+    var perm = mw * PERM_PER_MW[state.ftype];
+    var capexTotal = mw * state.capex * 1e6;
+    var cpj = perm > 0 ? capexTotal / perm : 0;
     var con = mw * state.ccoef;
     var conPeak = state.bldgs * state.peakb * state.concur;
-    var refresh = mw * state.rcoef;
-    var equipTotal = mw * COST_PER_MW;
-    var churn = (equipTotal * EQUIP_SHARE) / REFRESH_YEARS / 1000;
 
-    var m = models[state.model];
-    var mult = m[state.ftype];
+    // Tier 2
+    var refresh = mw * state.rcoef;
+    var churn = capexTotal * EQUIP_SHARE / REFRESH_YEARS;
+
+    // Tier 3
+    var mult = multFor(state.model);
     var spill = perm * mult;
-    var total = perm + spill;
 
     var xcTotal = (sf / 250000) * 50;
-    var xcContract = xcTotal * 0.5;
 
-    document.getElementById('perm').textContent = fmt(perm);
-    document.getElementById('con').textContent = fmt(con);
-    document.getElementById('conpeak').textContent = fmt(conPeak);
-    document.getElementById('refresh').textContent = fmt(refresh);
-    document.getElementById('churn').textContent = '$' + churn.toFixed(1) + 'B';
-    document.getElementById('xc-total').textContent = fmt(xcTotal);
-    document.getElementById('xc-contract').textContent = fmt(xcContract);
-    document.getElementById('spill').textContent = fmt(spill);
-    document.getElementById('mult').textContent = mult.toFixed(1) + 'x';
-    document.getElementById('m-label').textContent = m.label;
-    document.getElementById('m-desc').textContent = m.desc;
-    document.getElementById('total').textContent = '~' + fmt(total) + ' ongoing local jobs';
+    $('perm').textContent = fmt(perm);
+    $('perm-hint').textContent = 'direct employees at full build-out (' + PERM_PER_MW[state.ftype].toFixed(2) + '/MW)';
+    $('cpj').textContent = money(cpj);
+    $('con').textContent = fmt(con);
+    $('conpeak').textContent = fmt(conPeak);
+    $('jobyears').textContent = fmt(con * state.years);
+    $('jobyears-hint').textContent = 'average × ' + state.years + ' yrs';
+    $('conlocal').textContent = fmt(con * state.local);
+    $('conlocal-hint').textContent = 'average × ' + Math.round(state.local*100) + '% local (assumption)';
+    $('refresh').textContent = fmt(refresh);
+    $('churn').textContent = money(churn);
+    $('xc-total').textContent = fmt(xcTotal);
+    $('xc-contract').textContent = fmt(xcTotal * 0.5);
+    $('spill').textContent = fmt(spill);
+    $('mult').textContent = mult.toFixed(1) + 'x';
+    $('mult-hint').textContent = (state.model==='pwc' && state.pwcstate > 0) ? 'PwC state multiplier (entered)' : 'spillover per direct permanent job';
+    $('m-label').textContent = models[state.model].label;
+    $('m-desc').textContent = models[state.model].desc;
+    $('total').textContent = '~' + fmt(perm + spill) + ' ongoing local jobs';
+
+    // Range strip across models (PwC hidden in public view)
+    var vals = ORDER.filter(function(key){ return !(pub && key==='pwc'); })
+      .map(function(key){ return { key:key, v: perm * (1 + multFor(key)) }; })
+      .sort(function(a,b){ return a.v - b.v; });
+    var lo = vals[0].v, hi = vals[vals.length-1].v, span = hi - lo || 1;
+    var track = $('range-track');
+    Array.prototype.slice.call(track.querySelectorAll('.dot')).forEach(function(d){ track.removeChild(d); });
+    vals.forEach(function(x){
+      var b = document.createElement('button');
+      b.className = 'dot' + (x.key===state.model ? ' sel' : '');
+      b.style.left = ((x.v - lo) / span * 100) + '%';
+      b.title = models[x.key].name + ': ~' + fmt(x.v);
+      b.setAttribute('aria-label', models[x.key].name + ', about ' + fmt(x.v) + ' jobs');
+      b.onclick = function(){ state.model = x.key; $('model').value = x.key; applyAudience(); };
+      track.appendChild(b);
+    });
+    $('range-rows').innerHTML = vals.map(function(x){
+      var s = x.key===state.model ? ' s' : '';
+      return '<span class="' + s + '">' + models[x.key].name + ' (' + multFor(x.key).toFixed(1) + 'x)</span><span class="v' + s + '">~' + fmt(x.v) + '</span>';
+    }).join('') + '<span><b>Spread</b></span><span class="v">' + fmt(lo) + ' to ' + fmt(hi) + '</span>';
+
+    // County (Brookings)
+    var c = Math.max(0, state.county || 0);
+    $('cty-jobs').textContent = fmt(c * 0.02) + '-' + fmt(c * 0.05);
+    $('cty-colo-flag').classList.toggle('hidden', state.ftype !== 'colo');
+
+    // Fiscal
+    var mwh = mw * 8760 * state.lf;
+    $('mwh').textContent = (mwh >= 1e6 ? (mwh/1e6).toFixed(1) + 'M' : fmt(mwh/1e3) + 'K') + ' MWh';
+    $('etax-rev').textContent = money(mwh * 1000 * state.etax);
+    $('ptax-rev').textContent = money(capexTotal * (state.ptax/100) * (1 - state.abate));
+    $('stax-rev').textContent = state.exempt ? money(churn * state.stax) : '$0';
+
+    var ftName = { colo:'colocation', hyper:'hyperscale', ai:'AI training campus' }[state.ftype];
+    $('print-summary').textContent = 'Scenario: ' + fmt(mw) + ' MW ' + ftName + ', $' + state.capex.toFixed(1) + 'M/MW build cost, ' +
+      (pub ? 'public / hearing view' : 'internal view') + ', model ' + models[state.model].name + '. Printed ' + new Date().toLocaleDateString() + '.';
+
+    writeHash();
   }
 
   function applyAudience(){
     var pub = state.aud==='pub';
-    document.getElementById('t2-internal').classList.toggle('hidden', pub);
-    document.getElementById('t2-public').classList.toggle('hidden', !pub);
-    var sel = document.getElementById('model');
+    $('t2-internal').classList.toggle('hidden', pub);
+    $('t2-public').classList.toggle('hidden', !pub);
+    var sel = $('model');
     var pwcOpt = sel.querySelector('option[value="pwc"]');
     if (pwcOpt) pwcOpt.disabled = pub;
     if (pub && state.model==='pwc'){ state.model='brook'; sel.value='brook'; }
-    document.getElementById('t3tag').textContent = pub ? '(independent + government models)' : '(five models, select to compare)';
-    document.getElementById('t2tag').textContent = pub ? '(qualitative, no headcount)' : '(estimate, adjustable)';
-    document.getElementById('ftype-note').textContent = pub
-      ? 'Operator-run hyperscale facilities generate the strongest local ecosystem effect.'
-      : 'Drives the local ecosystem effect. Brookings found colocation captures little of it locally.';
-    document.getElementById('t3note').textContent = pub
-      ? 'Spillover jobs beyond the fence: fiber, network operations, managed services, IT contractors. Range shown across independent (Brookings) and Virginia government (JLARC) models.'
-      : 'All IMPLAN/RIMS models (JLARC, Mangum, ORVI, PwC) add and never subtract; they ignore opportunity cost. Brookings is the only model that measures a causal counterfactual, which is why it runs lowest and is hardest to attack in a hearing.';
-    document.getElementById('aud-note').textContent = pub
-      ? 'Conservative subset. Industry (PwC) model and the Tier 2 headcount estimate are hidden; refresh labor shown as a qualitative point only. Numbers remain a strict subset of the internal view, never inflated.'
+    $('pwc-state-row').classList.toggle('hidden', pub || state.model!=='pwc');
+    $('pwc-state-note').classList.toggle('hidden', pub || state.model!=='pwc');
+    $('brook-flag').classList.toggle('hidden', pub || state.model!=='brook');
+    $('stax-row').classList.toggle('hidden', pub);
+    $('exempt-row').classList.toggle('hidden', pub);
+    $('stax-card').classList.toggle('hidden', pub);
+    $('t3tag').textContent = pub ? '(independent + government models)' : '(five models, select to compare)';
+    $('t2tag').textContent = pub ? '(qualitative, no headcount)' : '(estimate, adjustable)';
+    var ftNotes = pub ? {
+      colo: 'Colocation facilities lease space and power to many tenants.',
+      hyper: 'Operator-run hyperscale facilities generate the strongest local ecosystem effect.',
+      ai: 'Gigawatt-class AI campuses are highly automated: large construction workforces, lean permanent staff.'
+    } : {
+      colo: 'Brookings found colocation captures little of the local IT-sector effect, yet draws the largest incentives relative to investment (~62%).',
+      hyper: 'Brookings attributes the local IT-sector job gains to hyperscalers, largest where data centers cluster.',
+      ai: 'Announced AI campuses run ~0.2 permanent jobs/MW (Hyperion: 1,000 on ~5 GW). Spillover uses hyperscale multipliers, which may overstate for a single-tenant training cluster.'
+    };
+    $('ftype-note').textContent = ftNotes[state.ftype];
+    $('t3note').textContent = pub
+      ? 'Spillover jobs beyond the fence: fiber, network operations, managed services, IT contractors. Range shown across independent (Brookings, ORVI, Mangum) and Virginia government (JLARC) models.'
+      : 'All IMPLAN/RIMS models (JLARC, Mangum, ORVI, PwC) add and never subtract; they ignore opportunity cost. Brookings is the only model that measures a causal counterfactual, which is why it runs lowest and is hardest to attack in a hearing. PwC\'s 2026 national figure (>4.5x) is down from ~6x in its 2023 study.';
+    $('aud-note').textContent = pub
+      ? 'Conservative subset. Industry (PwC) model, the Tier 2 headcount estimate and forgone sales tax are hidden; refresh labor shown as a qualitative point only. Numbers remain a strict subset of the internal view, never inflated.'
       : 'Full analysis with every caveat and all five models shown.';
-    document.getElementById('total-note').textContent = pub
+    $('total-note').textContent = pub
       ? 'Permanent staff plus the selected spillover model. Construction is temporary and excluded. Recurring refresh-cycle labor adds to this over the facility life but is not counted in the headline figure.'
-      : 'Range across all five models is shown so the figure is honest about spread. Construction is temporary and excluded. Tier 2 recurring labor sits on top, as an estimate.';
-    document.getElementById('aud-int').classList.toggle('on', !pub);
-    document.getElementById('aud-pub').classList.toggle('on', pub);
+      : 'Construction is temporary and excluded. Tier 2 recurring labor sits on top, as an estimate. See the range strip for the spread across models.';
+    $('aud-int').classList.toggle('on', !pub);
+    $('aud-pub').classList.toggle('on', pub);
     compute();
   }
 
   function setMode(m){
     state.mode = m;
     var mwOn = m==='mw';
-    document.getElementById('mw-panel').classList.toggle('hidden', !mwOn);
-    document.getElementById('sf-panel').classList.toggle('hidden', mwOn);
-    document.getElementById('mode-mw').classList.toggle('on', mwOn);
-    document.getElementById('mode-sf').classList.toggle('on', !mwOn);
-    compute();
+    $('mw-panel').classList.toggle('hidden', !mwOn);
+    $('sf-panel').classList.toggle('hidden', mwOn);
+    $('mode-mw').classList.toggle('on', mwOn);
+    $('mode-sf').classList.toggle('on', !mwOn);
   }
 
-  document.getElementById('aud-int').onclick=function(){state.aud='int';applyAudience();};
-  document.getElementById('aud-pub').onclick=function(){state.aud='pub';applyAudience();};
-  document.getElementById('mode-mw').onclick=function(){setMode('mw');};
-  document.getElementById('mode-sf').onclick=function(){setMode('sf');};
-  document.getElementById('mw').oninput=function(e){ state.mw=+e.target.value; document.getElementById('mw-out').textContent=fmt(state.mw); compute(); };
-  document.getElementById('sf').oninput=function(e){ state.sf=+e.target.value; document.getElementById('sf-out').textContent=fmt(state.sf); compute(); };
-  document.getElementById('ftype').onchange=function(e){ state.ftype=e.target.value; compute(); };
-  document.getElementById('rcoef').oninput=function(e){ state.rcoef=+e.target.value; document.getElementById('rcoef-out').textContent=(+e.target.value).toFixed(2); compute(); };
-  document.getElementById('ccoef').oninput=function(e){ state.ccoef=+e.target.value; document.getElementById('ccoef-out').textContent=(+e.target.value).toFixed(1); compute(); };
-  document.getElementById('bldgs').oninput=function(e){ state.bldgs=+e.target.value; document.getElementById('bldgs-out').textContent=fmt(state.bldgs); compute(); };
-  document.getElementById('peakb').oninput=function(e){ state.peakb=+e.target.value; document.getElementById('peakb-out').textContent=fmt(state.peakb); compute(); };
-  document.getElementById('concur').oninput=function(e){ state.concur=+e.target.value; document.getElementById('concur-out').textContent=(+e.target.value).toFixed(2); compute(); };
-  document.getElementById('model').onchange=function(e){ state.model=e.target.value; compute(); };
+  // Slider id -> formatter for its output label
+  var SLIDERS = {
+    mw: function(v){ return fmt(v); },
+    sf: function(v){ return fmt(v); },
+    capex: function(v){ return '$' + v.toFixed(1) + 'M'; },
+    rcoef: function(v){ return v.toFixed(2); },
+    ccoef: function(v){ return v.toFixed(1); },
+    years: function(v){ return String(v); },
+    bldgs: function(v){ return fmt(v); },
+    peakb: function(v){ return fmt(v); },
+    concur: function(v){ return v.toFixed(2); },
+    local: function(v){ return Math.round(v*100) + '%'; },
+    lf: function(v){ return Math.round(v*100) + '%'; },
+    etax: function(v){ return '$' + v.toFixed(3); },
+    ptax: function(v){ return v.toFixed(2) + '%'; },
+    abate: function(v){ return Math.round(v*100) + '%'; },
+    stax: function(v){ return (v*100).toFixed(2) + '%'; }
+  };
 
+  function syncControls(){
+    for (var id in SLIDERS){ $(id).value = state[id]; $(id + '-out').textContent = SLIDERS[id](+state[id]); }
+    $('ftype').value = state.ftype;
+    $('model').value = state.model;
+    $('pwcstate').value = state.pwcstate > 0 ? state.pwcstate : '';
+    $('county').value = state.county;
+    $('exempt').checked = !!state.exempt;
+    setMode(state.mode);
+  }
+
+  Object.keys(SLIDERS).forEach(function(id){
+    $(id).oninput = function(e){ state[id] = +e.target.value; $(id + '-out').textContent = SLIDERS[id](state[id]); compute(); };
+  });
+  $('aud-int').onclick=function(){ state.aud='int'; applyAudience(); };
+  $('aud-pub').onclick=function(){ state.aud='pub'; applyAudience(); };
+  $('mode-mw').onclick=function(){ setMode('mw'); compute(); };
+  $('mode-sf').onclick=function(){ setMode('sf'); compute(); };
+  $('ftype').onchange=function(e){ state.ftype=e.target.value; applyAudience(); };
+  $('model').onchange=function(e){ state.model=e.target.value; applyAudience(); };
+  $('pwcstate').oninput=function(e){ state.pwcstate = +e.target.value || 0; compute(); };
+  $('county').oninput=function(e){ state.county = +e.target.value || 0; compute(); };
+  $('exempt').onchange=function(e){ state.exempt = e.target.checked ? 1 : 0; compute(); };
+  $('pre-va').onclick=function(){ state.etax=0.011; syncControls(); compute(); };
+  $('pre-none').onclick=function(){ state.etax=0; syncControls(); compute(); };
+  $('btn-print').onclick=function(){ window.print(); };
+  $('btn-reset').onclick=function(){ for (var k in DEFAULTS) state[k]=DEFAULTS[k]; syncControls(); applyAudience(); };
+  $('btn-link').onclick=function(){
+    writeHash();
+    var url = location.href, msg = $('link-msg');
+    function done(){ msg.textContent = 'Link copied.'; setTimeout(function(){ msg.textContent=''; }, 2500); }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(url).then(done, function(){ window.prompt('Copy this link:', url); });
+    } else { window.prompt('Copy this link:', url); }
+  };
+
+  // Scenario lives in the URL hash, e.g. model.html#mw=1000&ftype=ai&aud=pub
+  function writeHash(){
+    var parts = [];
+    for (var k in DEFAULTS) if (state[k] !== DEFAULTS[k]) parts.push(k + '=' + encodeURIComponent(state[k]));
+    var h = parts.length ? '#' + parts.join('&') : '';
+    if (location.hash !== h) {
+      try { history.replaceState(null, '', location.pathname + location.search + h); } catch(e) {}
+    }
+  }
+  function readHash(){
+    var h = location.hash.replace(/^#/, '');
+    if (!h) return;
+    h.split('&').forEach(function(p){
+      var kv = p.split('='), key = kv[0], val = decodeURIComponent(kv[1] || '');
+      if (!DEFAULTS.hasOwnProperty(key)) return;
+      if (typeof DEFAULTS[key] === 'number') { var n = parseFloat(val); if (!isNaN(n)) state[key] = n; }
+      else state[key] = val;
+    });
+    if (!PERM_PER_MW[state.ftype]) state.ftype = DEFAULTS.ftype;
+    if (!models[state.model]) state.model = DEFAULTS.model;
+    if (state.mode !== 'sf') state.mode = 'mw';
+    if (state.aud !== 'pub') state.aud = 'int';
+  }
+
+  $('anchor-rows').innerHTML = ANCHORS.map(function(a){
+    var cpm = a[2] ? (a[2]/a[1]).toFixed(1) : '';
+    var ppm = a[4] ? (a[4]/a[1]).toFixed(2) : '';
+    return '<tr><td>' + a[0] + '</td><td class="n">' + fmt(a[1]) + '</td><td class="n">' + (a[3] || 'n/a') + '</td><td class="n">' + cpm +
+      '</td><td class="n">' + (a[4] ? fmt(a[4]) : 'n/a') + '</td><td class="n">' + ppm + '</td></tr>';
+  }).join('');
+
+  readHash();
+  syncControls();
   applyAudience();
 })();
 </script>
