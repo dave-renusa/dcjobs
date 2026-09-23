@@ -36,7 +36,7 @@ All four IMPLAN/RIMS models (JLARC, Mangum, ORVI, PwC) add and never subtract; t
 
 | Project | Capacity | Construction jobs | Implied jobs/MW |
 |---|---|---|---|
-| Bedington, WV (Penzance) | ~600 MW | 1,000+ | ~1.7 |
+| Bedington, WV | ~600 MW | 1,000+ | ~1.7 |
 | CoreWeave, Lancaster PA | ~300 MW | 600 | ~2.0 |
 | Stargate, Michigan | ~1,000 MW | 2,500+ | ~2.5 |
 | Meta, El Paso TX | ~1,000 MW | 4,000+ (peak) | ~4.0 |
